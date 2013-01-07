@@ -11,26 +11,8 @@ Ext.define('Kort.plugin.PullRefresh', {
         loadingText: Ext.i18n.Bundle.message('pullrefresh.loading'),
         releaseRefreshText: Ext.i18n.Bundle.message('pullrefresh.releaserefresh'),
         lastUpdatedText: Ext.i18n.Bundle.message('pullrefresh.lastupdated'),
-        dateFormat: 'd.m.Y H:i:s',
-        refreshFn: function(callbackFn, scope) {
-            var me = this,
-                list = me.getList(),
-                store = list.getStore();
+        dateFormat: Kort.util.Config.getMessage('pullrefresh.dateformat'),
 
-            if (store) {
-                store.load(function(records, operation, success) {
-                    store.updateDistances(Kort.geolocation);
-                    callbackFn.call(scope);
-                    // wait until bounce back animation is done
-                    Ext.defer(function() {
-                        list.refresh();
-                    }, 500);
-                });
-            } else {
-                callbackFn.call(scope);
-            }
-        },
-        
 		pullTpl: [
             '<div class="x-list-pullrefresh">',
                 '<div class="x-list-pullrefresh-arrow"></div>',

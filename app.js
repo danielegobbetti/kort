@@ -37,6 +37,7 @@ Ext.application({
         'Highscore',
         'Login',
         'Main',
+        'MarkerMap',
         'OsmMap',
         'Profile',
         'Validation',
@@ -86,20 +87,17 @@ Ext.application({
 
     // launch function is called as soon as app is ready
     launch: function() {
-        var selectAnswersStore = Ext.getStore('SelectAnswers'),
-            mainPanel;
+        var mainPanel;
 
         this.prepareI18n();
         this.configureMessageBox();
 
-        selectAnswersStore.load();
-
         // create main panel
+        // this has to be done in launch method so routes can work properly
         mainPanel = Ext.create('Kort.view.Main');
         Ext.Viewport.add(mainPanel);
         mainPanel.hide();
 
-        // create ui
         this.loadGeolocation(mainPanel);
     },
 
@@ -112,6 +110,8 @@ Ext.application({
             Ext.fly('appStartscreen').destroy();
 
             if(geo) {
+                // wait until correct position is found
+                Ext.defer(me.fireEvent, 500, me, ['geolocationready', geo]);
                 me.loadUserClientSecret(geo, mainPanel);
             } else {
                 me.showGeolocationErrorOverlay();
@@ -161,7 +161,7 @@ Ext.application({
                         console.log('clientSecret not passed -> write client secret to localstore');
                         me.writeUserClientSecret(Kort.user.get('secret'));
                     }
-                    me.showMainPanel(geo, mainPanel);
+                    me.loadStores(geo, mainPanel);
                 }
             }
         });
@@ -198,17 +198,13 @@ Ext.application({
         geolocationerrorPanel.show();
     },
 
-    showMainPanel: function(geo, mainPanel) {
-        var validationsStore = Ext.getStore('Validations'),
-            userBadges = Ext.getStore('UserBadges');
+    loadStores: function(geo, mainPanel) {
+        var userBadges = Ext.getStore('UserBadges'),
+            selectAnswersStore = Ext.getStore('SelectAnswers');
 
-        mainPanel.show();
+        // loading select answers
+        selectAnswersStore.load();
 
-        validationsStore.getProxy().setUrl(Kort.util.Config.getWebservices().validation.getUrl(geo.getLatitude(), geo.getLongitude()));
-
-        validationsStore.load(function(records, operation, success) {
-            validationsStore.updateDistances(Kort.geolocation);
-        }, this);
         // enable auto update on geolocation
         geo.setAutoUpdate(true);
 
@@ -216,8 +212,11 @@ Ext.application({
         userBadges.getProxy().setUrl(Kort.util.Config.getWebservices().userBadges.getUrl(Kort.user.get('id')));
         userBadges.load();
 
-        // loading highscore
-        Ext.getStore('Highscore').load();
+        this.showMainPanel(mainPanel);
+    },
+
+    showMainPanel: function(mainPanel) {
+        mainPanel.show();
 
         if(!Kort.user.get('username')) {
             this.showFirstStepsPanel();
@@ -234,8 +233,8 @@ Ext.application({
     prepareI18n: function() {
         Ext.i18n.Bundle.configure({
             bundle: 'Kort',
-            language: 'de-CH',
             path: 'resources/i18n',
+            language: Kort.util.Config.getLanguage(),
             noCache: true
         });
     },
@@ -244,7 +243,7 @@ Ext.application({
         // Override MessageBox default messages
         Ext.define('Kort.MessageBox', {
             override: 'Ext.MessageBox',
-            
+
             statics: {
                 YES   : {text: Ext.i18n.Bundle.message('messagebox.yes'),    itemId: 'yes', ui: 'action'},
                 NO    : {text: Ext.i18n.Bundle.message('messagebox.no'),     itemId: 'no'},
@@ -268,25 +267,13 @@ Ext.application({
     },
 
     onUpdated: function() {
-        // Override MessageBox default messages
-        Ext.override('Kort.MessageBox', {
-            override: 'Ext.MessageBox',
-            
-            statics: {
-                YES   : { text: 'Ja',   itemId: 'yes', ui: 'action'},
-                NO    : { text: 'Nein', itemId: 'no'},
-
-                YESNO: [
-                    { text: 'Ja',   itemId: 'yes', ui: 'action'},
-                    { text: 'Nein', itemId: 'no'}
-                ]
-            }
-        });
-
-        Ext.Msg.defaultAllowedConfig.zIndex = 1600;
+        Kort.app.configureMessageBox();
+        Kort.app.prepareI18n();
+        
+        Ext.Msg.defaultAllowedConfig.zIndex = Kort.util.Config.getZIndex().overlayOverlayPanel;
         Ext.Msg.confirm(
-            "Neue App-Version",
-            "Die App wurde auf die neuste Version aktualisiert. App neu laden?",
+            Ext.i18n.Bundle.message('update.title'),
+            Ext.i18n.Bundle.message('update.message'),
             function(buttonId) {
                 if (buttonId === 'yes') {
                     window.location.reload();

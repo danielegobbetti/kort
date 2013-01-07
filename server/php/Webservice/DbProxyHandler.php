@@ -33,7 +33,19 @@ abstract class DbProxyHandler
     public function __construct()
     {
         $this->dbProxy = new DbProxy($this->getTable(), $this->getFields());
-        $this->reader = new LocaleHelper("de_CH");
+        $this->reader = new LocaleHelper();
+    }
+
+    /**
+     * Sets the langauge to which the returns of all request should be translated.
+     *
+     * @param string $lang The two-character language code.
+     *
+     * @return void
+     */
+    public function setLanguage($lang)
+    {
+        $this->reader = new LocaleHelper($lang);
     }
 
     /**

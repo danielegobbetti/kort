@@ -23,8 +23,7 @@ Ext.define('Kort.view.bugmap.fix.Form', {
     initialize: function () {
         var fixContentComponent,
             fixFormPanel,
-            fixField,
-            fixNotFixableComponent;
+            fixField;
         
         this.callParent(arguments);
         
@@ -66,13 +65,13 @@ Ext.define('Kort.view.bugmap.fix.Form', {
             cls: 'fixFormPanel',
             scrollable: false,
             items: [
-                fixField,
                 {
                     xtype: 'togglefield',
                     name : 'falsepositive',
-                    label: Ext.i18n.Bundle.message('fix.form.notfixable.label'),
+                    label: Ext.i18n.Bundle.message('fix.form.falsepositive.toggle.label'),
                     labelWidth: '60%'
                 },
+                fixField,
                 {
                     xtype: 'button',
                     cls: 'fixSubmitButton',
@@ -82,21 +81,7 @@ Ext.define('Kort.view.bugmap.fix.Form', {
             ]
         };
         
-        fixNotFixableComponent = {
-            xtype: 'component',
-            cls: 'fixNotFixableComponent',
-            html:    '<div class="fix-content">' +
-                        '<div class="text">' +
-                            '<div class="content">' +
-                                '<p>' +
-                                    Ext.i18n.Bundle.message('fix.notfixable.description') +
-                                '</p>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>'
-        };
-        
-        this.add([fixContentComponent, fixFormPanel, fixNotFixableComponent]);
+        this.add([fixContentComponent, fixFormPanel]);
     },
     
     createFixField: function(bug) {

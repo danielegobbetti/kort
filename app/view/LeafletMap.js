@@ -6,7 +6,8 @@ Ext.define('Kort.view.LeafletMap', {
     xtype: 'kortleafletmap',
 
     config: {
-        useCurrentLocation: false,
+        useCurrentLocation: true,
+        enableOwnPositionMarker: true,
         autoMapCenter: false,
         mapOptions: {
             zoom: Kort.util.Config.getLeafletMap().zoom
