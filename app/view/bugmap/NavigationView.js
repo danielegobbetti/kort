@@ -32,16 +32,10 @@ Ext.define('Kort.view.bugmap.NavigationView', {
                     iconMask: true,
                     align: 'right'
                 }
-            ]
-        },
-		items: [
-			{
-                title: Ext.i18n.Bundle.message('bugmap.title'),
-                
-                xtype: 'kortleafletmap',
-                id: 'bugmap',
-                useCurrentLocation: true
-			}
-		]
+            ],
+            // SENCAH TOUCH BUGFIX:
+            // disable navigationBar animation because of wrong title positioning
+            animation: false
+        }
 	}
 });

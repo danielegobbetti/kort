@@ -10,7 +10,6 @@ if [[ $TARGET_ENV == "prod" ]] ; then
     echo "Production build... copying files from $SOURCE_DIR to $BUILD_DIR"
     cp -r $SOURCE_DIR/build/Kort/production/* $BUILD_DIR
     cp -r $SOURCE_DIR/docs $BUILD_DIR
-    cp -r $SOURCE_DIR/_DOCUMENTATION/ba-kort-jhunzike_soderbol.pdf $BUILD_DIR/docs
 else
     echo "Development build... copying files from $SOURCE_DIR to $BUILD_DIR"
     mkdir -p $BUILD_DIR/lib/Leaflet-0.4.5
@@ -30,7 +29,6 @@ else
     cp -r $SOURCE_DIR/test $BUILD_DIR
     cp -r $SOURCE_DIR/patch $BUILD_DIR
     cp -r $SOURCE_DIR/vendor $BUILD_DIR
-    cp -r $SOURCE_DIR/presentation $BUILD_DIR
     cp -r $SOURCE_DIR/proposals $BUILD_DIR
 
     cp -r $SOURCE_DIR/lib/Leaflet-0.4.5/dist/ $BUILD_DIR/lib/Leaflet-0.4.5/

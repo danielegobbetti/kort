@@ -22,6 +22,7 @@ Ext.define('Kort.controller.Highscore', {
                 tap: 'onHighscoreRefreshButtonTap'
             },
             highscoreNavigationView: {
+                initialize: 'onHighscoreNavigationViewInitialize',
                 detailpush: 'onHighscoreNavigationViewDetailPush',
                 back: 'onHighscoreNavigationViewBack'
             },
@@ -30,7 +31,7 @@ Ext.define('Kort.controller.Highscore', {
             }
         },
         
-        itemTapDisabled: false
+        detailPushDisabled: false
     },
     
     /**
@@ -42,15 +43,21 @@ Ext.define('Kort.controller.Highscore', {
         me.callParent(arguments);
         
         me.getApplication().on({
-            votesend: { fn: me.refreshView, scope: me },
-            fixsend: { fn: me.refreshView, scope: me },
-            userchange: { fn: me.refreshView, scope: me }
+            votesend: { fn: me.loadStore, scope: me },
+            fixsend: { fn: me.loadStore, scope: me },
+            userchange: { fn: me.loadStore, scope: me }
         });
+
+        Ext.getStore('Highscore').on('load', me.refreshView, me);
+    },
+
+    onHighscoreNavigationViewInitialize: function() {
+        this.loadStore(true);
     },
     
     // @private
     onHighscoreRefreshButtonTap: function() {
-        this.refreshView();
+        this.loadStore(true);
     },
     
     /**
@@ -63,12 +70,9 @@ Ext.define('Kort.controller.Highscore', {
             highscoreNavigationView = me.getHighscoreNavigationView(),
             highscoreUserContainer;
         
-        if(!me.getItemTapDisabled()) {
+        if(!me.getDetailPushDisabled()) {
             // disable fast tapping
-            me.setItemTapDisabled(true);
-            Ext.defer(function() {
-                me.setItemTapDisabled(false);
-            }, 500);
+            me.setDetailPushDisabled(true);
             
             if(record.get('you')) {
                 me.getMainTabPanel().setActiveItem(me.getProfileContainer());
@@ -89,25 +93,60 @@ Ext.define('Kort.controller.Highscore', {
     
     /**
      * @private
+     * Loads highscore store
+     */
+    loadStore: function(showLoadmask) {
+        var highscoreStore = Ext.getStore('Highscore');
+
+        if(showLoadmask) {
+            this.showLoadMask();
+        }
+        highscoreStore.load();
+    },
+
+    /**
+     * @private
      * Refreshs highscore
      */
     refreshView: function() {
-        var me = this,
-            highscoreStore = Ext.getStore('Highscore');
-        
-        if(me.getHighscoreList()) {
-            me.getHighscoreList().mask();
-            
-            highscoreStore.load(function(records, operation, success) {
-                me.getHighscoreList().refresh();
-                me.getHighscoreList().unmask();
-            });
+        if(this.getHighscoreList()) {
+            this.getHighscoreList().refresh();
         }
+        this.hideLoadMask();
+    },
+
+    /**
+     * @private
+     * Shows load mask
+     */
+    showLoadMask: function() {
+        this.getHighscoreRefreshButton().disable();
+        this.getHighscoreNavigationView().setMasked({
+            xtype: 'loadmask',
+            message: Ext.i18n.Bundle.message('highscore.loadmask.message'),
+            zIndex: Kort.util.Config.getZIndex().overlayLeafletMap
+        });
+    },
+    
+    /**
+     * @private
+     * Hides load mask
+     */
+    hideLoadMask: function() {
+        this.getHighscoreNavigationView().setMasked(false);
+        this.getHighscoreRefreshButton().enable();
     },
     
     // @private
     onHighscoreNavigationViewDetailPush: function(cmp, view, opts) {
-        this.getHighscoreRefreshButton().hide();
+        var me = this;
+
+        me.getHighscoreRefreshButton().hide();
+
+        // reenable detail push after certain time
+        Ext.defer(function() {
+            me.setDetailPushDisabled(false);
+        }, 2000);
     },
     
     // @private

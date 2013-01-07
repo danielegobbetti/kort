@@ -46,6 +46,7 @@ class FixGetHandler extends DbProxyHandler
             'downratings',
             'osm_id',
             'osm_type',
+            'osm_tag',
             'schema',
             'error_id'
         );
@@ -68,7 +69,7 @@ class FixGetHandler extends DbProxyHandler
      */
     public function getCompletedValidFixes()
     {
-        return $this->getFixes("complete and valid");
+        return $this->getFixes("complete and valid and not in_osm");
     }
 
     /**

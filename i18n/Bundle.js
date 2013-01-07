@@ -16,7 +16,7 @@ Ext.define('Ext.i18n.Bundle', {
 	],
 
 	//@private
-	defaultLanguage: 'en-US',
+	defaultLanguage: 'en',
 	//@private
 	resourceExt: '.props',
 
@@ -38,7 +38,7 @@ Ext.define('Ext.i18n.Bundle', {
 		 * @cfg language {String} Language in the form xx-YY where:
 		 * 		xx: Language code (2 characters lowercase)
     	 *      YY: Country code (2 characters upercase).
-		 * Optional. Default to browser's language. If it cannot be determined default to en-US.
+		 * Optional. Default to browser's language. If it cannot be determined default to 'en'.
 		 */
 
 		/**

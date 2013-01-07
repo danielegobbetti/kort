@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 0b071652196fb8ea1f74ac4350c3c018f6287e05
+# a593d8fb8b9ae9e639e0854c1a75d012e225b7fb
 index.html
 # a5e81b6d62ad3b105789ea32e6cd302736ffe14b
 resources/images/ajax-loader.gif
@@ -41,7 +41,7 @@ resources/images/badges/vote_count_1000.png
 resources/images/koins/koin_no_value.png
 # 27537eee5ab70c64bd7370edce2b9930578ab78d
 resources/images/marker_icons/language_unknown.png
-# 08dc02b0244ed139331f84ba549f51f4e4cb7b23
+# 88a48db869df7103add1b93fca7ffa088f813673
 resources/images/marker_icons/missing_maxspeed.png
 # 11c743518bb89167b599e8e9a96cd64684653ed7
 resources/images/marker_icons/missing_track_type.png
@@ -59,6 +59,8 @@ resources/images/marker_icons/shadow.png
 resources/images/marker_icons/undefined.png
 # 90a31f67e93bfebbcf25525d92939d799402201b
 resources/images/marker_icons/way_wo_tags.png
+# 256a6073de4ae4698b851b8dff68039d1ca13098
+resources/images/profile/highscore.png
 # 40035eed74c39e0a5a09d3cc45edce34a7c37f95
 resources/images/validation/thumbs-down.png
 # 368debdc9f12a6b2c5d92f88b0d6e14469844005

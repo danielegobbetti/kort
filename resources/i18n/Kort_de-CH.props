@@ -3,8 +3,7 @@ tab.bugmap=Aufträge
 tab.validation=Prüfen
 tab.highscore=Highscore
 tab.profile=Profil
-tab.about=Über
-button.back=Zurück
+tab.about=Über Kort
 
 # Login
 login.kort.description.1=Löse Aufträge
@@ -21,7 +20,6 @@ login.loadmask.message=Login...
 # Firststeps
 firststeps.introduction.1=Willkommen bei 
 firststeps.introduction.2=! Wähle einen Benutzernamen:
-firststeps.form.username.placeholder=Benutzername
 firststeps.form.button.submit=Mission beginnen!
 firststeps.alert.username.empty.title=Benutzernamen eingeben
 firststeps.alert.username.empty.message=Bitte gib einen Benutzernamen ein.
@@ -78,12 +76,6 @@ vote.sendmask.message=Sende Antwort...
 vote.alert.submit.failure.title=Fehler beim Senden
 vote.alert.submit.failure.message=Ups! Beim Übertragen deiner Antwort ist etwas schief gelaufen. Eventuell hilft ein Neustart der App.
 
-# PullRefresh Plugin
-pullrefresh.pullrefresh=Zum Aktualisieren herunterziehen
-pullrefresh.releaserefresh=Zum Aktualisieren loslassen...
-pullrefresh.loading=wird aktualisiert...
-pullrefresh.lastupdated=Zuletzt aktualisiert:
-
 # Highscore
 highscore.title=Highscore
 highscore.loadmask.message=Lade Highscore...
@@ -107,6 +99,7 @@ profile.content.fixes=Erledigte Aufträge
 profile.content.votes=Getätigte Überprüfungen
 profile.content.koins.header=Gesammelte Koins
 profile.content.koins.title=Koins
+profile.content.ranking.title=Platz
 profile.content.badges.header=Gewonnene Auszeichnungen
 profile.logout.loadmask.message=Logout...
 profile.refresh.loadmask.message=Lade Profil...
@@ -139,6 +132,15 @@ about.credits.markers=Marker Icons:
 about.legal.title=Rechtliche Hinweise
 about.legal.message=Halte die Richtlinien von OpenStreetMap ein und verwende z.B. keine urheberrechtlich geschützten Quellen ohne Erlaubnis.
 
+# PullRefresh Plugin
+pullrefresh.pullrefresh=Zum Aktualisieren herunterziehen
+pullrefresh.releaserefresh=Zum Aktualisieren loslassen...
+pullrefresh.loading=wird aktualisiert...
+pullrefresh.lastupdated=Zuletzt aktualisiert:
+
+# Button
+button.back=Zurück
+
 # MessageBox
 messagebox.ok=OK
 messagebox.yes=Ja
@@ -150,9 +152,27 @@ picker.done=Fertig
 picker.cancel=Abbrechen
 
 # Reward
-reward.alert.title=Du wurdest stärker!
+reward.alert.title=Dein Ansehen ist gestiegen!
 reward.alert.koins.new.1=Bravo! Du hast
 reward.alert.koins.new.2=Koins gewonnen.
 reward.alert.koins.total.1=Deine Gesamtpunktzahl beträgt nun
 reward.alert.koins.total.2=Koins.
 reward.alert.badges.title=Gewonnene Auszeichnungen
+
+# App update
+update.title=Neue App-Version
+update.message=Die App wurde auf die neuste Version aktualisiert. App neu laden?
+
+
+###############################
+# Labels used directly in source files (without Ext.i18n.Bundle plugin)
+###############################
+
+# App startscreen (index.html)
+loading.message=wird geladen. Gleich gehts los...
+
+# Firststeps (app/util/Config.js)
+firststeps.form.username.placeholder=Benutzername
+
+# PullRefresh Plugin (app/util/Config.js)
+pullrefresh.dateformat=d.m.Y H:i:s
